@@ -17,7 +17,7 @@ public class UserController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<User> createStudent(@RequestBody User userToAdd){
+    public ResponseEntity<User> createUser(@RequestBody User userToAdd){
         return ResponseEntity.ok().body(userService.addStudent(userToAdd));
     }
     @GetMapping("/getall")
@@ -25,7 +25,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAll());
     }
     @GetMapping("/getsingle/{id}")
-    public ResponseEntity<User> getSingleStudent(@PathVariable Long id){
+    public ResponseEntity<User> getSingleUser(@PathVariable Long id){
         Optional<User> studentOptional = userService.getOne(id);
         if(studentOptional.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok().body(studentOptional.get());
     }
     @PutMapping("/putuser/{id}")
-    public ResponseEntity<User> updateEvento(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         Optional<User> userOptional = userService.updateUser(id, user);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok().body(userOptional.get());
     }
     @DeleteMapping("/deletesingle/{id}")
-    public ResponseEntity<User> deleteSingleStudent(@PathVariable Long id){
+    public ResponseEntity<User> deleteSingleUser(@PathVariable Long id){
         Optional<User> studentOptional = userService.deleteById(id);
         if(studentOptional.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok().body(studentOptional.get());
     }
     @PatchMapping ("/active/{id}")
-    public ResponseEntity<User> studentActivation(@PathVariable Long id, @RequestParam Boolean isActive) {
+    public ResponseEntity<User> userActivation(@PathVariable Long id, @RequestParam Boolean isActive) {
         Optional<User> updatedStudent = userService.userActivation(id, isActive);
         if (updatedStudent.isPresent()) {
             return ResponseEntity.ok(updatedStudent.get());

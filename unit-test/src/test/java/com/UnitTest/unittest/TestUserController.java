@@ -41,6 +41,7 @@ public class TestUserController {
     }
 
     @Test
+    @Order(1)
     void createUser() throws Exception {
         User user = new User();
         user.setId(1L);
@@ -58,8 +59,9 @@ public class TestUserController {
     }
 
     @Test
+    @Order(5)
     void getAllUser() throws Exception {
-        createUser();
+
         MvcResult result = this.mockMvc.perform(get("/v1/getall"))
                 .andDo(print()).andReturn();
 
@@ -70,23 +72,25 @@ public class TestUserController {
     }
 
     @Test
+    @Order(4)
     void getUser() throws Exception {
-        Long studentId = 1L;
-        createUser();
+        Long userId = 1L;
 
-        MvcResult resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/v1/getsingle/{id}", studentId))
+
+        MvcResult resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/v1/getsingle/{id}", userId))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(studentId)).andReturn();
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(userId)).andReturn();
 
     }
 
     @Test
+    @Order(2)
     void updateUserById() throws Exception {
-        Long studentId = 1L;
-        createUser();
-        User updatedUser = new User(studentId, "Updated", "Name", false);
+        Long userId = 1L;
+
+        User updatedUser = new User(userId, "Updated", "Name", false);
         String studentJSON = objectMapper.writeValueAsString(updatedUser);
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.put("/v1/putuser/{id}", studentId)
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.put("/v1/putuser/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON).content(studentJSON))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
@@ -94,9 +98,10 @@ public class TestUserController {
     }
 
     @Test
+    @Order(6)
     void deleteUser() throws Exception {
         Long studentId = 1L;
-        createUser();
+        ;
 
         MvcResult result = mockMvc.perform(delete("/v1/deletesingle/{id}",studentId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -106,9 +111,10 @@ public class TestUserController {
     }
 
     @Test
+    @Order(3)
     void userActivation() throws Exception {
         Long id = 1L;
-        createUser();
+
         boolean isWorking = false;
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/v1/active/{id}",id)
